@@ -29,7 +29,7 @@ setup(
     test_suite='nose.collector',
     install_requires=[
         'typecast',
-        'normality',
+        'jsonschema',
         'six'
     ],
     tests_require=[

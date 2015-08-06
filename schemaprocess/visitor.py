@@ -64,7 +64,7 @@ class SchemaVisitor(object):
                 for prop in visitor.properties:
                     yield prop
 
-        for name, schema in self.schema.get('properties', {}):
+        for name, schema in self.schema.get('properties', {}).items():
             data = None if self.data is None else self.data.get(name)
             yield self._visitor(self, schema, data, name)
 
