@@ -29,7 +29,8 @@ setup(
     test_suite='nose.collector',
     install_requires=[
         'typecast',
-        'normality'
+        'normality',
+        'six'
     ],
     tests_require=[
         'nose',
