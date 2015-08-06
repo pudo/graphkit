@@ -1,3 +1,4 @@
+from jsonschema import Draft4Validator
 
 
 class SchemaVisitor(object):
@@ -5,11 +6,30 @@ class SchemaVisitor(object):
     allows the user to perform any transformations on the data that they
     wish. """
 
-    def __init__(self, schema, resolver, data=None, name=None):
-        self.schema = schema
+    def __init__(self, schema, resolver, data=None, name=None, parent=None,
+                 state=None):
+        self._schema = schema.copy()
         self.resolver = resolver
         self.data = data
         self.name = name
+        self.parent = parent
+        self.state = state
+        self._valid = False
+
+    def _visitor(self, parent, schema, data, name):
+        return type(self)(schema, self.resolver, data=data, name=name,
+                          parent=parent, state=self.state)
+
+    @property
+    def schema(self):
+        if not self._valid and '$ref' in self._schema:
+            uri, model = self.resolver.resolve(self._schema.pop('$ref'))
+            self._schema.update(model)
+            # if self.data is not None:
+            #    val = Draft4Validator(self._schema, resolver=self.resolver)
+            #    val.validate(self.data)
+            self._valid = True
+        return self._schema
 
     @property
     def types(self):
@@ -34,4 +54,29 @@ class SchemaVisitor(object):
     def properties(self):
         # This will have different results depending on whether data is given
         # or not, due to pattern properties.
-        pass
+        if not self.is_object:
+            return
+
+        for inheritance_rule in ('anyOf', 'allOf', 'oneOf'):
+            for schema in self.schema.get(inheritance_rule, []):
+                visitor = self._visitor(self.parent, schema, self.data,
+                                        self.name)
+                for prop in visitor.properties:
+                    yield prop
+
+        for name, schema in self.schema.get('properties', {}):
+            data = None if self.data is None else self.data.get(name)
+            yield self._visitor(self, schema, data, name)
+
+        # TODO: patternProperties
+
+    @property
+    def items(self):
+        if not self.is_array:
+            return
+        if self.data is None:
+            yield self._visitor(self, self.schema.get('items'), None,
+                                self.name)
+        for item in self.data:
+            yield self._visitor(self, self.schema.get('items'), item,
+                                self.name)
