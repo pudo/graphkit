@@ -19,6 +19,9 @@ class SchemaVisitor(object):
         return type(self)(schema, self.resolver, data=data, name=name,
                           parent=parent, state=self.state)
 
+    def match(self, name):
+        return self.name == name
+
     @property
     def schema(self):
         if '$ref' in self._schema:

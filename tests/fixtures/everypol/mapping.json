@@ -1,0 +1,65 @@
+{
+    "$type": "http://www.popoloproject.com/schemas/person.json#",
+    "mapping": {
+        "id": {
+            "column": "id"
+        },
+        "name": {
+            "column": "name"
+        },
+        "image": {
+            "column": "image"
+        },
+        "contact_details": [
+            {
+                "optional": true,
+                "mapping": {
+                    "value": {
+                        "column": "email"
+                    },
+                    "type": {
+                        "default": "email"
+                    }
+                }
+            },
+            {
+                "optional": true,
+                "mapping": {
+                    "value": {
+                        "column": "twitter"
+                    },
+                    "type": {
+                        "default": "twitter"
+                    }
+                }
+            }
+        ],
+        "memberships": [
+            {
+                "mapping": {
+                    "person_id": {
+                        "column": "id"
+                    },
+                    "role": {
+                        "default": "Member of Parliament"
+                    },
+                    "id": {
+                        "columns": ["id", "group_id"],
+                        "transforms": ["join", "hash"]
+                    },
+                    "organization": {
+                        "mapping": {
+                            "id": {
+                                "column": "group_id",
+                                "transforms": ["slugify"]
+                            },
+                            "name": {
+                                "column": "group"
+                            }
+                        }
+                    }
+                }
+            }
+        ]
+    }
+}
