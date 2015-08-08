@@ -1,0 +1,8 @@
+{
+    "$type": "countries/schema.json#",
+    "mapping": {
+        "name": {
+            "column": "country"
+        }
+    }
+}

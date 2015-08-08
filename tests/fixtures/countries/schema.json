@@ -1,0 +1,24 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "id": "countries/schema.json",
+    "title": "Country",
+    "type": "object",
+    "properties": {
+        "name": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 500
+        },
+        "iso2": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 2
+        },
+        "iso3": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 3
+        }
+    },
+    "required": ["name"]
+}

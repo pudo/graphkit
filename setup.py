@@ -30,7 +30,8 @@ setup(
     install_requires=[
         'typecast',
         'jsonschema',
-        'six'
+        'six',
+        'unicodecsv'
     ],
     tests_require=[
         'nose',
