@@ -14,7 +14,6 @@ class SchemaVisitor(object):
         self.name = name
         self.parent = parent
         self.state = state
-        self._valid = False
 
     def _visitor(self, parent, schema, data, name):
         return type(self)(schema, self.resolver, data=data, name=name,
@@ -22,13 +21,9 @@ class SchemaVisitor(object):
 
     @property
     def schema(self):
-        if not self._valid and '$ref' in self._schema:
-            uri, model = self.resolver.resolve(self._schema.pop('$ref'))
-            self._schema.update(model)
-            # if self.data is not None:
-            #    val = Draft4Validator(self._schema, resolver=self.resolver)
-            #    val.validate(self.data)
-            self._valid = True
+        if '$ref' in self._schema:
+            uri, data = self.resolver.resolve(self._schema.pop('$ref'))
+            self._schema.update(data)
         return self._schema
 
     @property
