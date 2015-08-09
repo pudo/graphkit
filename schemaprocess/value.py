@@ -28,7 +28,7 @@ def convert_value(bind, value):
     # TODO: currently, this will only generate the values supported by JSON
     # schema, but dates and datetimes should be supported as well. Need to
     # find a good work-around, e.g. based on ``format``.
-    for type_name in ('decimal', 'integer', 'boolean', 'number'):
+    for type_name in ('decimal', 'integer', 'boolean', 'number', 'string'):
         if type_name in bind.types:
             try:
                 return typecast.cast(type_name, value)

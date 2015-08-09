@@ -15,7 +15,7 @@
                   "type": "object",
                   "patternProperties": {
                       ".*": {
-                          "oneOf": [
+                          "anyOf": [
                               {"$ref": "#/definitions/mappingDefault"},
                               {"$ref": "#/definitions/mappingColumns"},
                               {"$ref": "#/definitions/mappingColumn"},
@@ -34,7 +34,7 @@
           "type": "array",
           "minLength": 1,
           "items": {
-              "oneOf": [
+              "anyOf": [
                   {"$ref": "#/definitions/mappingObject"},
                   {"$ref": "#/definitions/mappingDefault"},
                   {"$ref": "#/definitions/mappingColumns"},

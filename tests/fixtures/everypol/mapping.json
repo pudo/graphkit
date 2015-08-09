@@ -51,10 +51,12 @@
                         "mapping": {
                             "id": {
                                 "column": "group_id",
-                                "transforms": ["slugify"]
+                                "default": "no-party",
+                                "transforms": ["coalesce", "slugify"]
                             },
                             "name": {
-                                "column": "group"
+                                "column": "group",
+                                "default": "No Party"
                             }
                         }
                     }
