@@ -1,4 +1,4 @@
-from jsonschema import Draft4Validator
+# from jsonschema import Draft4Validator
 
 
 class SchemaVisitor(object):
