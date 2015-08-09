@@ -1,33 +1,36 @@
 from jsonschema import Draft4Validator, ValidationError
 
 from graphkit.util import make_resolver
-from graphkit.core import SchemaVisitor
+from graphkit.core.visitor import SchemaVisitor, RefScoped
 from graphkit.mapping.value import extract_value
 from graphkit.mapping.util import validate_mapping
 
 
-class Mapper(object):
+class Mapper(RefScoped):
     """ Given a JSON-specified mapping, this class will recursively transform
     a flat data structure (e.g. a CSV file or database table) into a nested
     JSON structure as specified by the JSON schema associated with the given
     mapping. """
 
-    def __init__(self, mapping, resolver, schema=None, bind=None, name=None):
+    def __init__(self, mapping, resolver, schema=None, bind=None, parent=None,
+                 scope=None, name=None):
         self._mapping = mapping.copy()
         self._schema = schema or {}
         self._bind = bind
         self._validator = None
         self._valid = name is not None
         self._children = None
-        self.resolver = resolver
         self.name = name
+        super(Mapper, self).__init__(resolver, self._mapping,
+                                     scope=scope, parent=parent)
 
     @property
     def mapping(self):
         """ Mappings can be given as references only, resolve first. """
         if '$ref' in self._mapping:
-            uri, data = self.resolver.resolve(self._mapping.pop('$ref'))
-            self._mapping.update(data)
+            with self.resolver.in_scope(self.scope):
+                uri, data = self.resolver.resolve(self._mapping.pop('$ref'))
+                self._mapping.update(data)
         if not self._valid:
             self._valid = validate_mapping(self._mapping) is not None
         return self._mapping
@@ -51,7 +54,8 @@ class Mapper(object):
         if self._bind is None:
             if '$type' in self.mapping:
                 self._schema['$ref'] = self.mapping.get('$type')
-            self._bind = SchemaVisitor(self._schema, self.resolver)
+            self._bind = SchemaVisitor(self._schema, self.resolver,
+                                       scope=self.scope)
         return self._bind
 
     @property
@@ -68,7 +72,7 @@ class Mapper(object):
                         if prop.match(name):
                             mapper = Mapper(mapping, self.resolver,
                                             schema=prop.schema, bind=prop,
-                                            name=name)
+                                            parent=self, name=name)
                             self._children.append(mapper)
         return self._children
 
@@ -95,7 +99,7 @@ class Mapper(object):
             for item in self.bind.items:
                 bind = Mapper(self.mapping, self.resolver,
                               schema=item.schema, bind=item,
-                              name=self.name)
+                              parent=self, name=self.name)
                 empty, value = bind.apply(data)
                 return empty, [value]
 
@@ -103,17 +107,16 @@ class Mapper(object):
             return extract_value(self.mapping, self.bind, data)
 
     @classmethod
-    def from_mapping(cls, mapping, resolver=None, base_uri=None):
-        return cls(mapping, make_resolver(resolver, base_uri))
+    def from_mapping(cls, mapping, resolver=None, scope=None):
+        return cls(mapping, make_resolver(resolver, scope), scope=scope)
 
     @classmethod
-    def from_iter(cls, rows, mapping, resolver=None, base_uri=None):
+    def from_iter(cls, rows, mapping, resolver=None, scope=None):
         """ Given an iterable ``rows`` that yield data records, and a
         ``mapping`` which is to be applied to them, return a tuple of
         ``data`` (the generated object graph) and ``err``, a validation
         exception if the resulting data did not match the expected schema. """
-        mapper = cls.from_mapping(mapping, resolver=resolver,
-                                  base_uri=base_uri)
+        mapper = cls.from_mapping(mapping, resolver=resolver, scope=scope)
         for row in rows:
             err = None
             _, data = mapper.apply(row)

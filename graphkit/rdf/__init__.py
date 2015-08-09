@@ -1,23 +1,10 @@
-from rdflib import Literal, URIRef, Namespace, Graph
-from rdflib import ConjunctiveGraph
-from rdflib.plugins.memory import IOMemory
-from rdflib.namespace import DC, FOAF, OWL, SKOS, RDF, DCTERMS
+from rdflib import Literal, URIRef
+from rdflib.namespace import RDF
 
-import json
-import jsonschema
 
 from graphkit.core import SchemaVisitor
-
-from pprint import pprint
-from rdflib.plugins.sleepycat import Sleepycat
-
 from graphkit.rdf import vocab
 from graphkit.rdf.util import safe_url, is_url
-
-
-#store = Sleepycat()
-#store.open('test.db', create=True)
-store = IOMemory()
 
 
 class RDFConverter(SchemaVisitor):
@@ -145,7 +132,7 @@ class RDFConverter(SchemaVisitor):
         """ Given a ``uri`` present in ``graph``, return a complete
         representation of the object described in ``schema`` from the graph.
         """
-        obj = cls(schema, resolver, data=data, name=None, state=graph)
+        obj = cls(schema, resolver, name=None, state=graph)
         return obj.objectify(URIRef(uri), depth=depth)
 
     @classmethod
@@ -159,41 +146,3 @@ class RDFConverter(SchemaVisitor):
                 obj.update(cls.load_schema_uri(resolver, graph, schema,
                                                uri, depth=depth))
         return obj
-
-
-if __name__ == '__main__':
-    import time
-    begin = time.time()
-    ng = Graph(store)
-    vocab.bind(ng)
-    data = json.load(open('test/bt.json', 'rb'))
-    print 'Loaded: ', int((time.time() - begin) * 1000), 'ms'
-    begin = time.time()
-
-    schema = resolver.resolve(vocab.Organization)
-    for org in data['organizations']:
-        # pprint(org)
-        uri = RDFSchema.import_data(ng, org, schema)
-        # print uri
-        # obj = RDFSchema.load_uri(ng, uri)
-        # pprint(obj)
-
-    print 'Orgs: ', int((time.time() - begin) * 1000), 'ms'
-    begin = time.time()
-
-    schema = resolver.get(vocab.Person)
-    for person in data['persons']:
-        # pprint(person)
-        uri = RDFSchema.import_data(ng, person, schema)
-        # print uri, type(uri)
-        obj = RDFSchema.load_uri(ng, uri, depth=7)
-        pprint(obj)
-        # break
-
-    print 'Persons: ', int((time.time() - begin) * 1000), 'ms'
-    begin = time.time()
-
-    with open('out.rdf', 'wb') as fh:
-        fh.write(ng.serialize(format='n3'))
-
-    print 'Serialize: ', int((time.time() - begin) * 1000), 'ms'

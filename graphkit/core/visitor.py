@@ -1,19 +1,40 @@
 # from jsonschema import Draft4Validator
 
 
-class SchemaVisitor(object):
+class RefScoped(object):
+
+    def __init__(self, resolver, scoped, scope=None, parent=None):
+        self.resolver = resolver
+        self._scoped = scoped
+        self._scope = scope or ''
+        self.parent = parent
+
+    @property
+    def id(self):
+        return self._scoped.get('id')
+
+    @property
+    def scope(self):
+        if self.id:
+            return self.id
+        if self.parent:
+            return self.parent.scope
+        return self._scope
+
+
+class SchemaVisitor(RefScoped):
     """ A schema visitor traverses a JSON schema with associated data and
     allows the user to perform any transformations on the data that they
     wish. """
 
     def __init__(self, schema, resolver, data=None, name=None, parent=None,
-                 state=None):
+                 state=None, scope=None):
         self._schema = schema.copy()
-        self.resolver = resolver
         self.data = data
         self.name = name
-        self.parent = parent
         self.state = state
+        super(SchemaVisitor, self).__init__(resolver, self._schema,
+                                            scope=scope, parent=parent)
 
     def _visitor(self, parent, schema, data, name):
         return type(self)(schema, self.resolver, data=data, name=name,
@@ -25,8 +46,9 @@ class SchemaVisitor(object):
     @property
     def schema(self):
         if '$ref' in self._schema:
-            uri, data = self.resolver.resolve(self._schema.pop('$ref'))
-            self._schema.update(data)
+            with self.resolver.in_scope(self.scope):
+                uri, data = self.resolver.resolve(self._schema.pop('$ref'))
+                self._schema.update(data)
         return self._schema
 
     @property
