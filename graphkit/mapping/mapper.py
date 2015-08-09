@@ -1,9 +1,9 @@
-import unicodecsv
 from jsonschema import Draft4Validator, ValidationError
 
-from graphkit.util import make_resolver, validate_mapping
-from graphkit.value import extract_value
-from graphkit.visitor import SchemaVisitor
+from graphkit.util import make_resolver
+from graphkit.core import SchemaVisitor
+from graphkit.mapping.value import extract_value
+from graphkit.mapping.util import validate_mapping
 
 
 class Mapper(object):
@@ -122,13 +122,3 @@ class Mapper(object):
             except ValidationError, ve:
                 err = ve
             yield data, err
-
-
-def csv_mapper(fileobj, mapping, resolver=None, base_uri=None):
-    """ Given a CSV file object (fh), parse the file as a unicode CSV document,
-    iterate over all rows of the data and map them to a JSON schema using the
-    mapping instructions in ``mapping``. """
-    reader = unicodecsv.DictReader(fileobj)
-    for (row, err) in Mapper.from_iter(reader, mapping, resolver=resolver,
-                                       base_uri=base_uri):
-        yield (row, err)

@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from graphkit.registry import SchemaRegistry
+from graphkit.core import SchemaRegistry
 
 from .util import RefResolver, fixture_uri
 
