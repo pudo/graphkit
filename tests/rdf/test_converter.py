@@ -3,6 +3,7 @@ from rdflib import Graph
 from unittest import TestCase
 
 from graphkit.rdf import RDFConverter
+from graphkit.rdf.provenance import get_context
 
 from ..util import resolver, fixture_file
 from ..util import PERSON_URI, ORG_URI
@@ -32,16 +33,11 @@ class RDFConverterTestCase(TestCase):
         assert len(list(ng.triples((None, None, None)))) > 0
 
     def test_graph_import(self):
-        ng = Graph()
+        ng = get_context(source_url='http://pudo.org', source_title='pudo.org')
         for org in self.data['organizations']:
             uri = RDFConverter.import_data(resolver, ng, org, self.org_schema)
             assert uri is not None
+            break
 
-        for person in self.data['persons']:
-            uri = RDFConverter.import_data(resolver, ng, person,
-                                           self.person_schema)
-            assert uri is not None
-            obj = RDFConverter.load_uri(resolver, ng, uri, depth=3)
-            assert obj['name'] == person['name']
-
-        assert len(list(ng.triples((None, None, None)))) > 0
+        serialized = ng.serialize(format='n3')
+        assert '<http://pudo.org>' in serialized

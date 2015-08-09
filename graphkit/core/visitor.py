@@ -10,9 +10,8 @@ class SchemaVisitor(RefScoped):
                  state=None, scope=None):
         self._schema = schema.copy()
         self.data = data
-        self.name = name
         self.state = state
-        super(SchemaVisitor, self).__init__(resolver, self._schema,
+        super(SchemaVisitor, self).__init__(resolver, self._schema, name=name,
                                             scope=scope, parent=parent)
 
     def _visitor(self, parent, schema, data, name):

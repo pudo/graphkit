@@ -20,8 +20,7 @@ class Mapper(RefScoped):
         self._validator = None
         self._valid = name is not None
         self._children = None
-        self.name = name
-        super(Mapper, self).__init__(resolver, self._mapping,
+        super(Mapper, self).__init__(resolver, self._mapping, name=name,
                                      scope=scope, parent=parent)
 
     @property

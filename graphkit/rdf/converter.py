@@ -10,7 +10,7 @@ class RDFConverter(SchemaVisitor):
 
     @property
     def uri(self):
-        val = self.schema.get('id')
+        val = self.path
         return None if val is None else URIRef(val)
 
     @property
