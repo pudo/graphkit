@@ -18,7 +18,7 @@ def fixture_file(path):
 
 def fixture_uri(path):
     base = os.path.join(fixtures_dir, path)
-    base_uri = 'file://' + urllib.url2pathname(base)
+    base_uri = 'file://' + urllib.pathname2url(base)
     with open(base, 'rb') as fh:
         return json.load(fh), base_uri
 

@@ -34,7 +34,8 @@ setup(
         'normality',
         'jsonschema',
         'six',
-        'unicodecsv'
+        'unicodecsv',
+        'rdflib>=4.0'
     ],
     tests_require=[
         'nose',

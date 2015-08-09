@@ -1,7 +1,7 @@
 from jsonschema import Draft4Validator, ValidationError
 
 from graphkit.util import make_resolver
-from graphkit.core.visitor import SchemaVisitor, RefScoped
+from graphkit.core import SchemaVisitor, RefScoped
 from graphkit.mapping.value import extract_value
 from graphkit.mapping.util import validate_mapping
 
