@@ -1,7 +1,7 @@
 import os
 from unittest import TestCase
 
-from schemaprocess.mapping import mapped_csv
+from schemaprocess.mapping import csv_mapper
 
 from .util import RefResolver, fixture_uri, fixtures_dir
 
@@ -16,7 +16,7 @@ class MappingTestCase(TestCase):
         resolver = RefResolver(uri, mapping)
         csvobj = open(os.path.join(fixtures_dir, 'countries',
                                    'countries.csv'), 'rb')
-        mapped = list(mapped_csv(csvobj, mapping, resolver=resolver))
+        mapped = list(csv_mapper(csvobj, mapping, resolver=resolver))
         assert len(mapped) == 255, len(mapped)
         row0, err0 = mapped[0]
         assert isinstance(row0, dict), row0
@@ -27,7 +27,7 @@ class MappingTestCase(TestCase):
         resolver = RefResolver(uri, mapping)
         csvobj = open(os.path.join(fixtures_dir, 'everypol',
                                    'term-26.csv'), 'rb')
-        mapped = list(mapped_csv(csvobj, mapping, resolver=resolver))
+        mapped = list(csv_mapper(csvobj, mapping, resolver=resolver))
         assert len(mapped) == 397, len(mapped)
         row0, err0 = mapped[0]
         assert isinstance(row0, dict), row0

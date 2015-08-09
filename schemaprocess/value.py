@@ -5,10 +5,13 @@ import typecast
 
 
 def extract_value(mapping, bind, data):
+    """ Given a mapping and JSON schema spec, extract a value from ``data``
+    and apply certain transformations to normalize the value. """
     columns = mapping.get('columns', [mapping.get('column')])
     values = [data.get(c) for c in columns]
 
     for transform in mapping.get('transforms', []):
+        # any added transforms must also be added to the schema.
         values = list(TRANSFORMS[transform](mapping, bind, values))
 
     value = values[0] if len(values) else None
@@ -21,6 +24,10 @@ def extract_value(mapping, bind, data):
 
 
 def convert_value(bind, value):
+    """ Type casting. """
+    # TODO: currently, this will only generate the values supported by JSON
+    # schema, but dates and datetimes should be supported as well. Need to
+    # find a good work-around, e.g. based on ``format``.
     for type_name in ('decimal', 'integer', 'boolean', 'number'):
         if type_name in bind.types:
             try:
@@ -31,20 +38,25 @@ def convert_value(bind, value):
 
 
 def coalesce(mapping, bind, values):
+    """ Given a list of values, return the first non-null value. """
     for value in values:
         if value is not None:
             return [value]
+    return []
 
 
 def slugify(mapping, bind, values):
+    """ Transform all values into URL-capable slugs. """
     return [_slugify(v) for v in values]
 
 
 def join(mapping, bind, values):
+    """ Merge all the strings. No space between them? """
     return [''.join([six.text_type(v) for v in values])]
 
 
 def str_func(name):
+    """ Apply functions like upper(), lower() and strip(). """
     def func(mapping, bind, values):
         for v in values:
             if isinstance(v, six.string_types):
@@ -54,11 +66,11 @@ def str_func(name):
 
 
 def hash(mapping, bind, values):
+    """ Generate a sha1 for each of the given values. """
     for v in values:
-        if isinstance(v, six.string_types):
-            v = v.encode('utf-8')
-        else:
+        if not isinstance(v, six.string_types):
             v = six.text_type(v)
+        v = v.encode('utf-8')
         yield sha1(v).hexdigest()
 
 

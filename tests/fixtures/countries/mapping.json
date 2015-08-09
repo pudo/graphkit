@@ -1,17 +1,20 @@
 {
     "$type": "#/definitions/country",
-    "mapping": {
-        "name": {
-            "column": "country"
-        },
-        "iso2": {
-            "column": "iso2"
-        },
-        "iso3": {
-            "column": "iso3"
-        }
-    },
+    "$ref": "#/definitions/mapping",
     "definitions": {
+        "mapping": {
+            "mapping": {
+                "name": {
+                    "column": "country"
+                },
+                "iso2": {
+                    "column": "iso2"
+                },
+                "iso3": {
+                    "column": "iso3"
+                }
+            }
+        },
         "country": {
             "title": "Country",
             "type": "object",

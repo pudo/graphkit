@@ -45,7 +45,7 @@
                     },
                     "id": {
                         "columns": ["id", "group_id"],
-                        "transforms": ["join", "hash"]
+                        "transforms": ["strip", "join", "hash"]
                     },
                     "organization": {
                         "mapping": {
