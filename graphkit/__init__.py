@@ -1,2 +1,2 @@
-from schemaprocess.visitor import SchemaVisitor  # noqa
-from schemaprocess.mapping import Mapper  # noqa
+from graphkit.visitor import SchemaVisitor  # noqa
+from graphkit.mapping import Mapper  # noqa

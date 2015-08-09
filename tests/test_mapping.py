@@ -1,7 +1,7 @@
 import os
 from unittest import TestCase
 
-from schemaprocess.mapping import csv_mapper
+from graphkit.mapping import csv_mapper
 
 from .util import RefResolver, fixture_uri, fixtures_dir
 

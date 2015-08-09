@@ -1,9 +1,8 @@
-import os
 from unittest import TestCase
 
-from schemaprocess.registry import SchemaRegistry
+from graphkit.registry import SchemaRegistry
 
-from .util import RefResolver, fixture_uri, fixtures_dir
+from .util import RefResolver, fixture_uri
 
 PERSON_URI = 'http://www.popoloproject.com/schemas/person.json#'
 ORG_URI = 'http://www.popoloproject.com/schemas/organization.json#'

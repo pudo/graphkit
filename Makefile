@@ -1,6 +1,6 @@
 
 test: install
-	env/bin/nosetests --with-coverage --cover-package=schemaprocess --cover-erase
+	@env/bin/nosetests --with-coverage --cover-package=graphkit --cover-erase
 
 install: env/bin/python
 

@@ -2,8 +2,8 @@ from setuptools import setup, find_packages
 
 
 setup(
-    name='schemaprocess',
-    version='0.1',
+    name='graphkit',
+    version='0.2',
     description="Process data based on JSON schema.",
     long_description="",
     classifiers=[
@@ -16,15 +16,15 @@ setup(
         'Programming Language :: Python :: 3.3',
         'Programming Language :: Python :: 3.4'
     ],
-    keywords='schema jsonschema json data conversion',
+    keywords='schema jsonschema json data conversion graph rdf linkeddata',
     author='Friedrich Lindenberg',
     author_email='friedrich@pudo.org',
-    url='http://github.com/pudo/schemaprocess',
+    url='http://github.com/pudo/graphkit',
     license='MIT',
     packages=find_packages(exclude=['ez_setup', 'examples', 'test']),
     namespace_packages=[],
     package_data={
-        '': ['schemaprocess/schemas/mapping.json']
+        '': ['graphkit/schemas/mapping.json']
     },
     include_package_data=True,
     zip_safe=False,

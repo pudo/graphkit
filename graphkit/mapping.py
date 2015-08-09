@@ -1,9 +1,9 @@
 import unicodecsv
 from jsonschema import Draft4Validator, ValidationError
 
-from schemaprocess.util import make_resolver, validate_mapping
-from schemaprocess.value import extract_value
-from schemaprocess.visitor import SchemaVisitor
+from graphkit.util import make_resolver, validate_mapping
+from graphkit.value import extract_value
+from graphkit.visitor import SchemaVisitor
 
 
 class Mapper(object):

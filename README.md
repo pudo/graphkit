@@ -1,6 +1,6 @@
-# schemaprocess
+# graphkit
 
-[![Build Status](https://travis-ci.org/pudo/schemaprocess.svg?branch=master)](https://travis-ci.org/pudo/schemaprocess)
+[![Build Status](https://travis-ci.org/pudo/graphkit.svg?branch=master)](https://travis-ci.org/pudo/graphkit)
 
 Handle the processing and conversion of data based on [JSON
 schema](http://json-schema.org/) specifications. This includes the ability to
