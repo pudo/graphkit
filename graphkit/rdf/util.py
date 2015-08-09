@@ -1,7 +1,7 @@
 import urlparse
 import urllib
-from rdflib import URIRef
-from rdflib.namespace import split_uri
+# from rdflib import URIRef
+# from rdflib.namespace import split_uri
 
 
 def safe_url(url):
