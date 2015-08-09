@@ -1,2 +1,4 @@
-from graphkit.core import SchemaVisitor  # noqa
-from graphkit.mapping import Mapper  # noqa
+from graphkit.core import SchemaVisitor
+from graphkit.mapping import Mapper
+
+__all__ = [SchemaVisitor, Mapper]
