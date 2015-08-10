@@ -13,6 +13,12 @@ def from_path(path):
     return 'file://' + urllib.pathname2url(path)
 
 
+def to_path(uri):
+    if uri.startswith('file://'):
+        uri = uri.replace('file://', '')
+    return uri
+
+
 def as_fh(uri):
     """ Get a fileobj for the given URI. """
     scheme = urlparse.urlsplit(uri).scheme.lower()
@@ -20,9 +26,11 @@ def as_fh(uri):
         return requests.get(uri)
     return urllib.urlopen(uri)
 
+
 def as_yaml(uri):
     """ Decode the given URI as YAML (or JSON). """
     return yaml.load(as_fh(uri))
+
 
 def make_safe(url):
     if url is not None:

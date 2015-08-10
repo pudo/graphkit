@@ -46,7 +46,8 @@ setup(
     ],
     entry_points={
         'graphkit.steps': [
-            'csv:read = graphkit.pipe.csv:ReadCSV'
+            'csv:read = graphkit.pipe.csv:CSVRead',
+            'csv:write = graphkit.pipe.csv:CSVWrite'
         ]
     }
 )

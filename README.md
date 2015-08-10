@@ -23,16 +23,16 @@ a set of queries on the resulting graph.
 The following stages / operations should be supported in the graph processing
 pipeline:
 
-* ``readcsv``: Generate an iterator from a CSV file.
+* ``csv:read``: Generate an iterator from a CSV file.
 * ``readtable``: Generate an iterator from a SQL database table.
-* ``map``: Apply a JSON schema mapping to the data coming from a source.
-* ``load``: Import the data from a JSON stream into a triple store.
-* ``dedupe``: Apply sameAs mappings based on some external mapping file.
-* ``sparql``: Run a SPARQL query.
-* ``mql``: Run an MQL query.
-* ``dump``: Export RDF data to a file.
-* ``unmap``: Apply a JSON schema mapping to convert objects to a flat table.
-* ``writecsv``: Export data to a CSV file.
+* ``json:map``: Apply a JSON schema mapping to the data coming from a source.
+* ``rdf:load``: Import the data from a JSON stream into a triple store.
+* ``rdf:dedupe``: Apply sameAs mappings based on some external mapping file.
+* ``rdf:sparql``: Run a SPARQL query.
+* ``mql:query``: Run an MQL query.
+* ``rdf:dump``: Export RDF data to a file.
+* ``json:unmap``: Apply a JSON schema mapping to convert objects to a flat table.
+* ``csv:write``: Export data to a CSV file.
 
 ## JSON Schema Mapping
 

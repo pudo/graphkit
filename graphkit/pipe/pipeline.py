@@ -38,6 +38,16 @@ class Pipeline(object):
                 self._steps.append(step)
         return self._steps
 
+    def execute(self):
+        """ Run the pipeline. """
+        chain = tuple()
+        for step in self.steps:
+            chain = step.apply(chain)
+
+        if hasattr(chain, '__iter__'):
+            for record in chain:
+                pass
+
     @classmethod
     def from_file(cls, file_name):
         return cls.from_uri(uri.from_path(file_name))
