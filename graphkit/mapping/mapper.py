@@ -1,6 +1,5 @@
 from jsonschema import Draft4Validator, ValidationError
 
-from graphkit.util import make_resolver
 from graphkit.core import SchemaVisitor, RefScoped
 from graphkit.mapping.value import extract_value
 from graphkit.mapping.util import validate_mapping
@@ -105,16 +104,16 @@ class Mapper(RefScoped):
             return extract_value(self.mapping, self.bind, data)
 
     @classmethod
-    def from_mapping(cls, mapping, resolver=None, scope=None):
-        return cls(mapping, make_resolver(resolver, scope), scope=scope)
+    def from_mapping(cls, mapping, resolver, scope=None):
+        return cls(mapping, resolver, scope=scope)
 
     @classmethod
-    def from_iter(cls, rows, mapping, resolver=None, scope=None):
+    def from_iter(cls, rows, mapping, resolver, scope=None):
         """ Given an iterable ``rows`` that yield data records, and a
         ``mapping`` which is to be applied to them, return a tuple of
         ``data`` (the generated object graph) and ``err``, a validation
         exception if the resulting data did not match the expected schema. """
-        mapper = cls.from_mapping(mapping, resolver=resolver, scope=scope)
+        mapper = cls.from_mapping(mapping, resolver, scope=scope)
         for row in rows:
             err = None
             _, data = mapper.apply(row)

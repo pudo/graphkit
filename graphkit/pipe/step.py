@@ -1,3 +1,4 @@
+from urlparse import urljoin
 from pkg_resources import iter_entry_points
 
 from graphkit.core import GraphKitException
@@ -36,6 +37,13 @@ class Step(object):
         """ If no input is accepted, this function is called instead to create
         output: either a single return value, or an iterator of items. """
         raise NotImplemented()
+
+    def finalize(self):
+        """ Execute any post-execution cleanup. """
+        pass
+
+    def make_uri(self, name):
+        return urljoin(self.pipeline.base_uri, name)
 
     @classmethod
     def by_name(cls, name):

@@ -24,7 +24,7 @@ setup(
     packages=find_packages(exclude=['ez_setup', 'examples', 'test']),
     namespace_packages=[],
     package_data={
-        '': ['graphkit/schemas/mapping.json']
+        '': ['graphkit/schemas/*.json']
     },
     include_package_data=True,
     zip_safe=False,
@@ -34,13 +34,19 @@ setup(
         'normality',
         'jsonschema',
         'six',
+        'requests>=2.0',
         'unicodecsv',
-        'rdflib>=4.0'
+        'rdflib>=4.0',
+        'pyyaml'
     ],
     tests_require=[
         'nose',
         'coverage',
         'wheel'
     ],
-    entry_points={}
+    entry_points={
+        'graphkit.steps': [
+            'csv:read = graphkit.pipe.csv:ReadCSV'
+        ]
+    }
 )

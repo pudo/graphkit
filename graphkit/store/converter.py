@@ -1,9 +1,9 @@
 from rdflib import Literal, URIRef
 from rdflib.namespace import RDF
 
+from graphkit import uri
 from graphkit.core import SchemaVisitor
 from graphkit.store.vocab import BNode, PRED, ID
-from graphkit.store.util import safe_url, is_url
 
 
 class Converter(SchemaVisitor):
@@ -51,8 +51,8 @@ class Converter(SchemaVisitor):
     def object(self):
         if self.schema.get('format') == 'uri' or \
                 self.schema.get('rdfType') == 'uri':
-            return URIRef(safe_url(self.data))
-        if self.schema.get('rdfType') == 'id' and not is_url(self.data):
+            return URIRef(uri.make_safe(self.data))
+        if self.schema.get('rdfType') == 'id' and not uri.check(self.data):
             return ID[self.data]
         return Literal(self.data)
 

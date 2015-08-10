@@ -1,3 +1,6 @@
+import os
+
+from graphkit import uri
 from graphkit.core import GraphKitException
 from graphkit.pipe.step import Step
 
@@ -7,9 +10,14 @@ class Pipeline(object):
     configuration. The pipeline coordinates the execution of the steps and
     provides some common functionality. """
 
-    def __init__(self, data):
+    def __init__(self, data, base_uri=None):
         self.data = data
+        self.base_uri = data.get('base_uri', base_uri)
+        if self.base_uri is None:
+            self.base_uri = uri.from_path(os.getcwd())
         self._steps = None
+        # TODO: resolver
+        # TODO: registry
 
     @property
     def config(self):
@@ -29,3 +37,11 @@ class Pipeline(object):
                     raise GraphKitException("Not a step: %r" % cls)
                 self._steps.append(step)
         return self._steps
+
+    @classmethod
+    def from_file(cls, file_name):
+        return cls.from_uri(uri.from_path(file_name))
+
+    @classmethod
+    def from_uri(cls, uri):
+        return cls(uri.as_yaml(uri), base_uri=uri)
