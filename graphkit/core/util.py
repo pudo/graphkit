@@ -29,3 +29,7 @@ class RefScoped(object):
         if self.parent:
             return self.parent.scope
         return self._scope
+
+
+class GraphKitException(Exception):
+    """ Base class for library exceptions. """
