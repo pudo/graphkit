@@ -16,9 +16,9 @@ def from_path(path):
 def as_fh(uri):
     """ Get a fileobj for the given URI. """
     scheme = urlparse.urlsplit(uri).scheme.lower()
-    if schema in ['http', 'https']:
+    if scheme in ['http', 'https']:
         return requests.get(uri)
-    return urlopen(uri)
+    return urllib.urlopen(uri)
 
 def as_yaml(uri):
     """ Decode the given URI as YAML (or JSON). """
