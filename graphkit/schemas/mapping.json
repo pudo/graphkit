@@ -94,8 +94,8 @@
       "mappingCommon": {
           "type": "object",
           "properties": {
-              "$type": {
-                  "type": "string"
+              "schema": {
+                  "$ref": "http://json-schema.org/draft-04/schema#"
               },
               "optional": {
                   "type": "boolean"

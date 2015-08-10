@@ -1,5 +1,7 @@
 {
-    "$type": "http://www.popoloproject.com/schemas/person.json#",
+    "schema": {
+        "$ref": "http://www.popoloproject.com/schemas/person.json#"
+    },
     "mapping": {
         "id": {
             "column": "id"

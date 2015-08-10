@@ -51,9 +51,8 @@ class Mapper(RefScoped):
     def bind(self):
         """ The JSON schema spec matching the current level of the mapping. """
         if self._bind is None:
-            if '$type' in self.mapping:
-                self._schema['$ref'] = self.mapping.get('$type')
-            self._bind = SchemaVisitor(self._schema, self.resolver,
+            schema = self.mapping.get('schema', self._schema)
+            self._bind = SchemaVisitor(schema, self.resolver,
                                        scope=self.scope)
         return self._bind
 
