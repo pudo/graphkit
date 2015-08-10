@@ -1,10 +1,10 @@
-from rdflib import ConjunctiveGraph
+# from rdflib import ConjunctiveGraph
 from unittest import TestCase
 
-from graphkit.rdf import provenance
+from graphkit.store import provenance
 
-from ..util import resolver, fixture_file
-from ..util import PERSON_URI, ORG_URI
+# from ..util import resolver, fixture_file
+# from ..util import PERSON_URI, ORG_URI
 
 
 class ProvenanceTestCase(TestCase):

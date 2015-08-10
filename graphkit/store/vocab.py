@@ -1,4 +1,5 @@
 from uuid import uuid4
+
 from rdflib import Graph, URIRef, Namespace
 
 PRED = Namespace('/data/fields/')

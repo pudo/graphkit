@@ -1,5 +1,6 @@
 import six
 from hashlib import sha1
+
 from normality import slugify as _slugify
 import typecast
 

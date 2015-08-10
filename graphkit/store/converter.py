@@ -2,11 +2,11 @@ from rdflib import Literal, URIRef
 from rdflib.namespace import RDF
 
 from graphkit.core import SchemaVisitor
-from graphkit.rdf.vocab import BNode, PRED, ID
-from graphkit.rdf.util import safe_url, is_url
+from graphkit.store.vocab import BNode, PRED, ID
+from graphkit.store.util import safe_url, is_url
 
 
-class RDFConverter(SchemaVisitor):
+class Converter(SchemaVisitor):
 
     @property
     def uri(self):

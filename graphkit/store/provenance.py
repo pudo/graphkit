@@ -4,8 +4,8 @@ from datetime import datetime
 from rdflib import URIRef, Literal
 from rdflib.namespace import RDF
 
-from graphkit.rdf.vocab import META, BNode, get_graph
-from graphkit.rdf.util import safe_url, is_url
+from graphkit.store.vocab import META, BNode, get_graph
+from graphkit.store.util import safe_url, is_url
 
 
 def get_context(source_url=None, source_title=None, source_file=None):

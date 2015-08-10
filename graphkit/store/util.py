@@ -1,6 +1,7 @@
 import urlparse
 import urllib
 from StringIO import StringIO
+
 from rdflib.plugins.serializers.n3 import N3Serializer
 
 

@@ -1,4 +1,5 @@
 import unicodecsv
+
 from graphkit.mapping.mapper import Mapper
 
 
