@@ -19,3 +19,10 @@ $ graphpipe mygraph.yaml
 
 https://lawlesst.github.io/notebook/rdflib-stardog.html
 https://gist.github.com/lawlesst/9996cf3050c019a8d5ee
+
+
+## Goto locations
+
+http://json-schema.org/latest/json-schema-validation.html
+https://github.com/json-schema/json-schema
+https://github.com/Julian/jsonschema/blob/master/jsonschema/validators.py

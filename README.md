@@ -10,12 +10,11 @@ data structures into a JSON object graph based on a mapping.
 ## README as it should be
 
 GraphKit is a pipeline processing tool for graph-based data extraction,
-transformation and analysis operations. The tool's graph model is based on
-annotated [JSON schema](http://json-schema.org/) definitions of known types and
-properties.
+transformation and analysis. The tool's graph model is based on annotated
+[JSON schema](http://json-schema.org/) definitions.
 
 A typical pipeline might extract data from a set of CSV files or database
-tables, translate them to JSON using a JSON schema, combine them into an
+tables, translate them to JSON using a given schema, combine them into an
 RDF graph, perform de-duplication and data integration, and eventually run
 a set of queries on the resulting graph.
 
@@ -45,8 +44,8 @@ See [here](https://github.com/pudo/graphkit/blob/master/tests/fixtures/everypol/
 for an example.
 
 The format allows mapping nested structures, including arrays. It also supports
-the application of very basic data transformation steps, such as slugifying or
-hashing a column value.
+the application of very basic data transformation steps, such as generating a
+URL slug or hashing a column value.
 
 ## Tests
 
