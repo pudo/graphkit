@@ -1,7 +1,7 @@
 import urlparse
 import urllib
-# from rdflib import URIRef
-# from rdflib.namespace import split_uri
+from StringIO import StringIO
+from rdflib.plugins.serializers.n3 import N3Serializer
 
 
 def safe_url(url):
@@ -20,14 +20,8 @@ def is_url(text):
         text.startswith('urn:') or text.startswith('file://')
 
 
-# def full_uri(graph, uri):
-#     try:
-#         ns, name = split_uri(uri)
-#         ns = ns.rstrip(':')
-#         for (prefix, ref) in graph.namespaces():
-#             if prefix == ns:
-#                 return URIRef(ref + name)
-#     except Exception, ex:
-#         print ex
-#         pass
-#     return URIRef(uri)
+def query_header(graph):
+    """ Declare namespace bindings for SPARQL queries. """
+    sio = StringIO()
+    N3Serializer(graph).serialize(sio)
+    return sio.getvalue()

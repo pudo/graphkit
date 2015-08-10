@@ -9,6 +9,7 @@ from graphkit.rdf.util import safe_url, is_url
 
 
 def get_context(source_url=None, source_title=None, source_file=None):
+    """ Generate a graph with some provenance information attached to it. """
     identifier = URIRef(safe_url(source_url)) if is_url(source_url) else None
     if identifier is None:
         if source_file is not None:
