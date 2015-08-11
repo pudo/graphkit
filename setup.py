@@ -33,6 +33,7 @@ setup(
         'typecast',
         'normality',
         'jsonschema',
+        'jsonmapping',
         'six',
         'requests>=2.0',
         'unicodecsv',

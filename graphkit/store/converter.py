@@ -1,8 +1,9 @@
 from rdflib import Literal, URIRef
 from rdflib.namespace import RDF
 
+from jsonmapping import SchemaVisitor
+
 from graphkit import uri
-from graphkit.core import SchemaVisitor
 from graphkit.store.vocab import BNode, PRED, ID
 
 

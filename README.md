@@ -34,18 +34,8 @@ pipeline:
 * ``json:unmap``: Apply a JSON schema mapping to convert objects to a flat table.
 * ``csv:write``: Export data to a CSV file.
 
-## JSON Schema Mapping
-
 To link flat data structures to nested object graphs matching JSON schema
-definitions, a mapping language is supported to define how the columns of
-a source table are meant to be applied to the fields of a JSON schema.
-
-See [here](https://github.com/pudo/graphkit/blob/master/tests/fixtures/everypol/mapping.json)
-for an example.
-
-The format allows mapping nested structures, including arrays. It also supports
-the application of very basic data transformation steps, such as generating a
-URL slug or hashing a column value.
+definitions, ``jsonmapping`` is used.
 
 ## Tests
 
