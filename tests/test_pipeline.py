@@ -3,7 +3,7 @@ from unittest import TestCase
 from tempfile import NamedTemporaryFile
 
 from graphkit import Pipeline
-from graphkit.core import GraphKitException
+from graphkit.exc import GraphKitException
 
 from .util import resolver, fixture_uri
 

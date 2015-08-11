@@ -1,7 +1,7 @@
 from unicodecsv import DictReader, writer
 
 from graphkit import uri
-from graphkit.core import GraphKitException
+from graphkit.exc import GraphKitException
 from graphkit.pipe.step import Step
 
 

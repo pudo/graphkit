@@ -1,5 +1,6 @@
 
 test: install
+	@rm -f graphkit/**/*.pyc
 	@env/bin/nosetests --with-coverage --cover-package=graphkit --cover-erase
 
 install: env/bin/python upgrade
@@ -10,7 +11,7 @@ env/bin/python:
 	env/bin/pip install nose coverage unicodecsv python-dateutil
 
 upgrade:
-	env/bin/pip install -e .
+	@env/bin/pip install -e .
 
 upload:
 	env/bin/python setup.py sdist bdist_wheel upload
