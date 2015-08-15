@@ -30,14 +30,12 @@ setup(
     zip_safe=False,
     test_suite='nose.collector',
     install_requires=[
-        'typecast',
         'normality',
         'jsonschema',
+        'jsongraph',
         'jsonmapping',
-        'six',
         'requests>=2.0',
         'unicodecsv',
-        'rdflib>=4.0',
         'pyyaml'
     ],
     tests_require=[
