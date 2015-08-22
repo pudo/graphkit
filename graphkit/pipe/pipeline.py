@@ -14,7 +14,7 @@ class Pipeline(object):
         self.data = data
         self.base_uri = data.get('base_uri', base_uri)
         if self.base_uri is None:
-            self.base_uri = uri.from_path(os.getcwd())
+            self.base_uri = util.from_path(os.getcwd())
         self._steps = None
         # TODO: resolver
         # TODO: registry
