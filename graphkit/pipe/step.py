@@ -1,7 +1,7 @@
 from urlparse import urljoin
 from pkg_resources import iter_entry_points
 
-from graphkit.exc import GraphKitException
+from graphkit.util import GraphKitException
 
 
 class Step(object):

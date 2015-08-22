@@ -1,7 +1,7 @@
 import os
 
-from graphkit import uri
-from graphkit.exc import GraphKitException
+from graphkit import util
+from graphkit.util import GraphKitException
 from graphkit.pipe.step import Step
 
 
@@ -50,8 +50,8 @@ class Pipeline(object):
 
     @classmethod
     def from_file(cls, file_name):
-        return cls.from_uri(uri.from_path(file_name))
+        return cls.from_uri(util.from_path(file_name))
 
     @classmethod
     def from_uri(cls, uri):
-        return cls(uri.as_yaml(uri), base_uri=uri)
+        return cls(util.as_yaml(uri), base_uri=uri)

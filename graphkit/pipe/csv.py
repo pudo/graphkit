@@ -1,7 +1,7 @@
 from unicodecsv import DictReader, writer
 
-from graphkit import uri
-from graphkit.exc import GraphKitException
+from graphkit import util
+from graphkit.util import GraphKitException
 from graphkit.pipe.step import Step
 
 
@@ -13,7 +13,7 @@ class CSVRead(Step):
     def apply(self, records):
         file_name = self.config.get('file')
         file_url = self.make_uri(file_name)
-        fh = uri.as_fh(file_url)
+        fh = util.as_fh(file_url)
         for row in DictReader(fh):
             yield row
         if hasattr(fh, 'close'):
@@ -29,7 +29,7 @@ class CSVWrite(Step):
         file_name = self.config.get('file')
         if file_name is None:
             raise GraphKitException("No file for export specified")
-        file_name = uri.to_path(self.make_uri(file_name))
+        file_name = util.to_path(self.make_uri(file_name))
         with open(file_name, 'wb') as fh:
             csv, fields = None, None
 

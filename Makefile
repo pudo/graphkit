@@ -1,20 +1,18 @@
 
 test: install
-	@rm -f graphkit/**/*.pyc
-	@env/bin/nosetests --with-coverage --cover-package=graphkit --cover-erase
+	# @rm -f graphkit/**/*.pyc
+	@pyenv/bin/nosetests --with-coverage --cover-package=graphkit --cover-erase
 
-install: env/bin/python upgrade
+install: pyenv/bin/python upgrade
 
-env/bin/python:
-	virtualenv env
-	env/bin/pip install --upgrade pip
-	env/bin/pip install nose coverage unicodecsv python-dateutil
-
-upgrade:
-	@env/bin/pip install -e .
+pyenv/bin/python:
+	virtualenv pyenv
+	pyenv/bin/pip install --upgrade pip
+	pyenv/bin/pip install nose coverage unicodecsv python-dateutil
+	pyenv/bin/pip install -e .
 
 upload:
-	env/bin/python setup.py sdist bdist_wheel upload
+	pyenv/bin/python setup.py sdist bdist_wheel upload
 
 clean:
 	rm -rf env
