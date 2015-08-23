@@ -45,3 +45,12 @@ def read_uri(uri):
 def read_yaml_uri(uri):
     """ Decode the given URI as YAML (or JSON). """
     return yaml.load(read_uri(uri))
+
+
+def dump_fileobj(file_path):
+    dump_dir = os.path.dirname(file_path)
+    try:
+        os.makedirs(dump_dir)
+    except:
+        pass
+    return open(file_path, 'wb')

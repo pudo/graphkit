@@ -9,7 +9,7 @@ from jsonschema import Draft4Validator, ValidationError
 from jsonmapping import Mapper
 
 from graphkit.util import GraphKitException
-from graphkit.util import read_yaml_uri, read_uri, path_to_uri
+from graphkit.util import read_yaml_uri, read_uri, path_to_uri, dump_fileobj
 
 log = logging.getLogger(__name__)
 config_schema = os.path.dirname(__file__)
@@ -52,12 +52,12 @@ class Manager(object):
                 self._graph.register(alias, uri)
         return self._graph
 
-    def load_mapped_csv(self, csv_uri, mapping):
+    def load_mapped_csv(self, csv_uri, mapping, context=None):
         """ Load data from a CSV file, applying a JSON mapping and then adding
         it to the graph. """
         meta = {'source_url': csv_uri}
         reader = unicodecsv.DictReader(read_uri(csv_uri))
-        ctx = self.graph.context(meta=meta)
+        ctx = self.graph.context(identifier=context, meta=meta)
         for data, err in Mapper.apply_iter(reader, mapping,
                                            self.graph.resolver,
                                            scope=self.base_uri):
@@ -69,13 +69,15 @@ class Manager(object):
 
     def save_dump(self, dump_file):
         """ Save a dump of the current graph to an NQuads file. """
-        dump_dir = os.path.dirname(dump_file)
-        try:
-            os.makedirs(dump_dir)
-        except:
-            pass
         log.debug('Dumping to %r...', dump_file)
-        self.graph.graph.serialize(dump_file, format='nquads')
+        self.graph.graph.serialize(dump_fileobj(dump_file), format='nquads')
+
+    def load_dump(self, dump_file):
+        """ Load an NQuads file into the current graph. """
+        log.debug('Loading from %r...', dump_file)
+        fh = read_uri(dump_file)
+        self.graph.graph.parse(fh, format='nquads')
+        fh.close()
 
     @classmethod
     def from_uri(cls, uri):
