@@ -36,6 +36,7 @@ setup(
         'jsonmapping',
         'requests>=2.0',
         'unicodecsv',
+        'click',
         'pyyaml'
     ],
     tests_require=[
@@ -44,9 +45,8 @@ setup(
         'wheel'
     ],
     entry_points={
-        'graphkit.steps': [
-            'csv:read = graphkit.pipe.csv:CSVRead',
-            'csv:write = graphkit.pipe.csv:CSVWrite'
+        'console_scripts': [
+            'graphkit = graphkit.cli:cli'
         ]
     }
 )

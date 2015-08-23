@@ -1,13 +1,17 @@
 import os
+import logging
+import unicodecsv
 
 from rdflib import plugin
 from rdflib.store import Store
 from jsongraph import Graph, sparql_store
 from jsonschema import Draft4Validator, ValidationError
+from jsonmapping import Mapper
 
 from graphkit.util import GraphKitException
-from graphkit.util import read_yaml_uri, path_to_uri
+from graphkit.util import read_yaml_uri, read_uri, path_to_uri
 
+log = logging.getLogger(__name__)
 config_schema = os.path.dirname(__file__)
 config_schema = os.path.join(config_schema, 'schemas', 'config.yaml')
 config_schema = read_yaml_uri(path_to_uri(config_schema))
@@ -47,6 +51,31 @@ class Manager(object):
             for alias, uri in self.config.get('schemas', {}).items():
                 self._graph.register(alias, uri)
         return self._graph
+
+    def load_mapped_csv(self, csv_uri, mapping):
+        """ Load data from a CSV file, applying a JSON mapping and then adding
+        it to the graph. """
+        meta = {'source_url': csv_uri}
+        reader = unicodecsv.DictReader(read_uri(csv_uri))
+        ctx = self.graph.context(meta=meta)
+        for data, err in Mapper.apply_iter(reader, mapping,
+                                           self.graph.resolver,
+                                           scope=self.base_uri):
+            if err is not None:
+                log.warning("Error loading %r: %r", csv_uri, err)
+            else:
+                ctx.add(data['$schema'], data)
+        ctx.save()
+
+    def save_dump(self, dump_file):
+        """ Save a dump of the current graph to an NQuads file. """
+        dump_dir = os.path.dirname(dump_file)
+        try:
+            os.makedirs(dump_dir)
+        except:
+            pass
+        log.debug('Dumping to %r...', dump_file)
+        self.graph.graph.serialize(dump_file, format='nquads')
 
     @classmethod
     def from_uri(cls, uri):

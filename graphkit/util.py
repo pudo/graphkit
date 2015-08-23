@@ -1,12 +1,21 @@
 import os
 import yaml
+import click
+import logging
 import urllib
 import urlparse
 import requests
 
+log = logging.getLogger()
 
-class GraphKitException(Exception):
+
+class GraphKitException(click.ClickException):
     """ Base class for library exceptions. """
+
+    def show(self):
+        log.error(self)
+
+    exit_code = -1
 
 
 def path_to_uri(path):
@@ -24,10 +33,13 @@ def uri_to_path(uri):
 
 def read_uri(uri):
     """ Get a fileobj for the given URI. """
-    scheme = urlparse.urlsplit(uri).scheme.lower()
-    if scheme in ['http', 'https']:
-        return requests.get(uri)
-    return urllib.urlopen(uri)
+    try:
+        scheme = urlparse.urlsplit(uri).scheme.lower()
+        if scheme in ['http', 'https']:
+            return requests.get(uri)
+        return urllib.urlopen(uri)
+    except IOError as ioe:
+        raise GraphKitException(str(ioe))
 
 
 def read_yaml_uri(uri):

@@ -18,7 +18,7 @@ properties:
     schemas:
         type: object
         patternProperties:
-            .*:
+            "[A-Za-z][A-Za-z0-9_]*[A-Za-z0-9]":
                 oneOf:
                     - type: string
                       format: uri
