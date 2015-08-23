@@ -1,15 +1,18 @@
 GK=graphkit --debug -c config.json
 
-all: tmp/data.json tmp/anc_members.json
+all: tmp/sa.json tmp/anc_members.json
 
-tmp/anc_members.json: tmp/term-26.nq
-	$(GK) query -i tmp/term-26.nq -f anc_query.json -o tmp/anc_members.json
+tmp/anc_members.json: tmp/sa.nq
+	$(GK) query -i tmp/sa.nq -f anc_query.json -o tmp/anc_members.json
 
-tmp/data.json: tmp/term-26.nq
-	$(GK) dump-json -i tmp/term-26.nq -t persons -t organizations -o tmp/data.json
+tmp/sa.json: tmp/sa.nq
+	$(GK) dump-json -i tmp/sa.nq -t persons -t organizations -o tmp/data.json
 
-tmp/term-26.nq:
-	$(GK) load-csv -x urn:everypol:southafrica -m mapping.json -o tmp/term-26.nq term-26.csv
+tmp/sa.nq: tmp/sa.csv
+	$(GK) load-csv -x urn:everypol:sa -m mapping.json -o tmp/sa.nq tmp/sa.csv
+
+tmp/sa.csv:
+	curl -o tmp/sa.csv https://cdn.rawgit.com/everypolitician/everypolitician-data/00f0221/data/South_Africa/Assembly/term-26.csv
 
 clean:
 	rm -rf tmp

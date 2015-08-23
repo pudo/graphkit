@@ -15,8 +15,10 @@ log = logging.getLogger(__name__)
 
 
 @click.group()
-@click.option('--debug/--no-debug', default=False)
-@click.option('--config', '-c', default=None)
+@click.option('--debug/--no-debug', default=False,
+              help='Show log messages.')
+@click.option('--config', '-c', default=None, metavar='FILE_URI',
+              help='Graph configuration file.')
 @click.pass_context
 def cli(ctx, debug, config):
     """ JSON graph-based data processing utility. """
@@ -68,11 +70,25 @@ def load_csv(ctx, mapping, output, context, csv_file):
               help='Levels of object nesting to be exported.')
 @click.pass_context
 def dump_json(ctx, input, types, output, depth):
-    """ Generate a JSON representation of registered schemas. """
+    """ Generate JSON of registered schemas. """
     graph = ctx.obj['GRAPH']
     for uri in input:
         load_dump(graph, ensure_uri(uri))
     save_json_dump(graph, output, types, depth=depth)
+
+
+@cli.command('merge')
+@click.option('--input', '-i', required=True, multiple=True,
+              metavar='FILE_URI', help='Graph files to be loaded.')
+@click.option('--output', '-o', default=None, metavar='FILE_PATH',
+              help='Combined graph file.')
+@click.pass_context
+def merge(ctx, input, output):
+    """ Combine multiple graph files. """
+    graph = ctx.obj['GRAPH']
+    for uri in input:
+        load_dump(graph, ensure_uri(uri))
+    save_dump(graph, output)
 
 
 @cli.command('query')
@@ -86,7 +102,7 @@ def dump_json(ctx, input, types, output, depth):
               help='JSON/YAML file containing the query.')
 @click.pass_context
 def query(ctx, input, output, context, query_file):
-    """ Run an MQL query and print the results. """
+    """ Run an MQL query and store the results. """
     graph = ctx.obj['GRAPH']
     for uri in input:
         load_dump(graph, ensure_uri(uri))
