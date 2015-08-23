@@ -1,7 +1,8 @@
+import os
 from nose.tools import raises
 from unittest import TestCase
 
-from graphkit import Manager
+from graphkit import Manager, GraphKitException
 
 from .util import fixture_uri
 
@@ -40,3 +41,19 @@ class ManagerTestCase(TestCase):
         assert str(g) == self.uri, (g, self.uri)
         assert g.get_uri('persons') == 'http://foo.bar/#person', \
             g.get_uri('persons')
+
+    @raises(GraphKitException)
+    def test_invalid_store_config(self):
+        data = self.data.copy()
+        data['store'] = 5
+        Manager(data, base_uri=self.uri)
+
+    @raises(GraphKitException)
+    def test_invalid_schema_config(self):
+        data = self.data.copy()
+        data['schemas'] = {'foo': 5}
+        Manager(data)
+
+    def test_generate_base_uri(self):
+        manager = Manager(self.data.copy())
+        assert os.getcwd() in manager.base_uri, manager.base_uri

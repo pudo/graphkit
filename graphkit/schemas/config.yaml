@@ -1,2 +1,25 @@
 id: http://pudo.github.io/graphkit/config.yaml
 title: GraphKit Configuration
+
+properties:
+    store:
+        type: object
+        properties:
+            query:
+                type: string
+                format: uri
+            update:
+                type: string
+                format: uri
+        required:
+            - query
+            - update
+
+    schemas:
+        type: object
+        patternProperties:
+            .*:
+                oneOf:
+                    - type: string
+                      format: uri
+                    - $ref: http://json-schema.org/draft-04/schema#

@@ -3,8 +3,9 @@ import os
 from rdflib import plugin
 from rdflib.store import Store
 from jsongraph import Graph, sparql_store
-from jsonschema import Draft4Validator
+from jsonschema import Draft4Validator, ValidationError
 
+from graphkit.util import GraphKitException
 from graphkit.util import read_yaml_uri, path_to_uri
 
 config_schema = os.path.dirname(__file__)
@@ -21,7 +22,10 @@ class Manager(object):
         self.base_uri = self.config.get('base_uri', base_uri)
         if self.base_uri is None:
             self.base_uri = path_to_uri(os.getcwd())
-        config_schema.validate(self.config)
+        try:
+            config_schema.validate(self.config)
+        except ValidationError as ve:
+            raise GraphKitException(str(ve))
 
     @property
     def store(self):
