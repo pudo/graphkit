@@ -24,7 +24,7 @@ setup(
     packages=find_packages(exclude=['ez_setup', 'examples', 'test']),
     namespace_packages=[],
     package_data={
-        '': ['graphkit/schemas/*.json']
+        '': ['graphkit/schemas/*.yaml']
     },
     include_package_data=True,
     zip_safe=False,

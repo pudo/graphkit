@@ -1,6 +1,5 @@
 
 test: install
-	# @rm -f graphkit/**/*.pyc
 	@pyenv/bin/nosetests --with-coverage --cover-package=graphkit --cover-erase
 
 install: pyenv/bin/python

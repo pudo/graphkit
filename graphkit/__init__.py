@@ -1,3 +1,3 @@
-from graphkit.pipe import Step, Pipeline
+from graphkit.manager import Manager
 
-__all__ = [Step, Pipeline]
+__all__ = [Manager]

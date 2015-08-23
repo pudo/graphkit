@@ -1,0 +1,8 @@
+
+# store:
+#     query: http://localhost:3030/jsongraph-test/query
+#     update: http://localhost:3030/jsongraph-test/update
+
+schemas:
+    persons:
+        id: 'http://foo.bar/#person'

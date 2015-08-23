@@ -9,7 +9,7 @@ class GraphKitException(Exception):
     """ Base class for library exceptions. """
 
 
-def from_path(path):
+def path_to_uri(path):
     """ Given a file path, make a URI from it. """
     path = os.path.expanduser(path)
     path = os.path.expandvars(path)
@@ -17,13 +17,12 @@ def from_path(path):
     return 'file://' + urllib.pathname2url(path)
 
 
-def to_path(uri):
+def uri_to_path(uri):
     if uri.startswith('file://'):
-        uri = uri.replace('file://', '')
-    return uri
+        return uri.replace('file://', '')
 
 
-def as_fh(uri):
+def read_uri(uri):
     """ Get a fileobj for the given URI. """
     scheme = urlparse.urlsplit(uri).scheme.lower()
     if scheme in ['http', 'https']:
@@ -31,6 +30,6 @@ def as_fh(uri):
     return urllib.urlopen(uri)
 
 
-def as_yaml(uri):
+def read_yaml_uri(uri):
     """ Decode the given URI as YAML (or JSON). """
-    return yaml.load(as_fh(uri))
+    return yaml.load(read_uri(uri))
