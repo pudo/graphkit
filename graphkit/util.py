@@ -6,6 +6,8 @@ import urllib
 import urlparse
 import requests
 
+from jsongraph.uri import check as check_uri
+
 log = logging.getLogger()
 
 
@@ -16,6 +18,13 @@ class GraphKitException(click.ClickException):
         log.error(self)
 
     exit_code = -1
+
+
+def ensure_uri(path_or_uri):
+    """ Check if the given string is a URI, otherwise make a file URI. """
+    if not check_uri(path_or_uri):
+        return path_to_uri(path_or_uri)
+    return path_or_uri
 
 
 def path_to_uri(path):

@@ -1,21 +1,17 @@
 import os
+import sys
 import logging
 
 import click
+import yaml
 from jsongraph import Graph
-from jsongraph.uri import check as check_uri
 
-from graphkit.util import path_to_uri, read_yaml_uri
+from graphkit.util import path_to_uri, read_yaml_uri, ensure_uri
 from graphkit.mapping import load_mapped_csv
 from graphkit.dumps import load_dump, save_dump, save_json_dump
+from graphkit.query import save_query_json
 
 log = logging.getLogger(__name__)
-
-
-def ensure_uri(path_or_uri):
-    if not check_uri(path_or_uri):
-        return path_to_uri(path_or_uri)
-    return path_or_uri
 
 
 @click.group()
@@ -79,14 +75,27 @@ def dump_json(ctx, input, types, output, depth):
     save_json_dump(graph, output, types, depth=depth)
 
 
-# @cli.command('query')
-# @click.option('--results', '-r', default=None)
-# @click.pass_context
-# def query(ctx, mapping, output, csv_file):
-#     """ Run an MQL query and print the results. """
-#     manager = ctx.obj['MANAGER']
-#     if output is not None:
-#         manager.save_dump(output)
+@cli.command('query')
+@click.option('--input', '-i', required=True, multiple=True,
+              metavar='FILE_URI', help='Graph files to be loaded.')
+@click.option('--output', '-o', default=None, metavar='FILE_PATH',
+              help='Path to the resulting JSON file.')
+@click.option('--context', '-x', default=None,
+              help='Name of the graph metadata context')
+@click.option('--query-file', '-f', default=None, metavar='FILE_URI',
+              help='JSON/YAML file containing the query.')
+@click.pass_context
+def query(ctx, input, output, context, query_file):
+    """ Run an MQL query and print the results. """
+    graph = ctx.obj['GRAPH']
+    for uri in input:
+        load_dump(graph, ensure_uri(uri))
+
+    if query_file is not None:
+        query = read_yaml_uri(ensure_uri(query_file))
+    else:
+        query = yaml.loads(sys.stdin)
+    save_query_json(graph, query, output, context_id=context)
 
 
 if __name__ == '__main__':

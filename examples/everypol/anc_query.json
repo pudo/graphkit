@@ -1,0 +1,10 @@
+[{
+    "$schema": "persons",
+    "*": null,
+    "memberships": {
+        "organization": {
+            "name": "African National Congress"
+        }
+    },
+    "limit": 10
+}]
