@@ -10,6 +10,7 @@ from graphkit.util import path_to_uri, read_yaml_uri, ensure_uri
 from graphkit.mapping import load_mapped_csv
 from graphkit.dumps import load_dump, save_dump, save_json_dump
 from graphkit.query import save_query_json
+from graphkit.admin import clear_store
 
 log = logging.getLogger(__name__)
 
@@ -60,7 +61,7 @@ def load_csv(ctx, mapping, output, context, csv_file):
 
 
 @cli.command('dump-json')
-@click.option('--input', '-i', required=True, multiple=True,
+@click.option('--input', '-i', multiple=True,
               metavar='FILE_URI', help='Graph files to be loaded.')
 @click.option('--types', '-t', multiple=True,
               metavar='ALIAS', help='Schema types to be exported.')
@@ -78,7 +79,7 @@ def dump_json(ctx, input, types, output, depth):
 
 
 @cli.command('merge')
-@click.option('--input', '-i', required=True, multiple=True,
+@click.option('--input', '-i', multiple=True,
               metavar='FILE_URI', help='Graph files to be loaded.')
 @click.option('--output', '-o', default=None, metavar='FILE_PATH',
               help='Combined graph file.')
@@ -92,7 +93,7 @@ def merge(ctx, input, output):
 
 
 @cli.command('query')
-@click.option('--input', '-i', required=True, multiple=True,
+@click.option('--input', '-i', multiple=True,
               metavar='FILE_URI', help='Graph files to be loaded.')
 @click.option('--output', '-o', default=None, metavar='FILE_PATH',
               help='Path to the resulting JSON file.')
@@ -112,6 +113,16 @@ def query(ctx, input, output, context, query_file):
     else:
         query = yaml.loads(sys.stdin)
     save_query_json(graph, query, output, context_id=context)
+
+
+@cli.command('clear')
+@click.option('--context', '-x', default=None,
+              help='Name of the graph metadata context')
+@click.pass_context
+def clear(ctx, context):
+    """ Delete data from the store. """
+    graph = ctx.obj['GRAPH']
+    clear_store(graph, context_id=context)
 
 
 if __name__ == '__main__':

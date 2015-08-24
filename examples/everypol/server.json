@@ -1,0 +1,559 @@
+{
+    "store": {
+        "query": "http://localhost:3030/graphkit/query",
+        "update": "http://localhost:3030/graphkit/update"
+    },
+    "schemas": {
+        "memberships": {
+            "$schema": "http://json-schema.org/draft-03/schema#",
+            "description": "A relationship between a member and an organization",
+            "id": "http://www.popoloproject.com/schemas/membership.json#",
+            "properties": {
+                "area": {
+                    "$ref": "http://www.popoloproject.com/schemas/area.json#",
+                    "description": "The geographic area to which this membership is related"
+                },
+                "area_id": {
+                    "description": "The ID of the geographic area to which this membership is related",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "contact_details": {
+                    "description": "Means of contacting the member of the organization",
+                    "items": {
+                        "$ref": "http://www.popoloproject.com/schemas/contact_detail.json#"
+                    },
+                    "type": "array"
+                },
+                "created_at": {
+                    "description": "The time at which the resource was created",
+                    "format": "date-time",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "end_date": {
+                    "description": "The date on which the relationship ended",
+                    "pattern": "^[0-9]{4}((-[0-9]{2}){0,2}|(-[0-9]{2}){2}(T[0-9]{2}(:[0-9]{2}(:[0-9]{2})?)?Z)?)$",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "id": {
+                    "description": "The membership's unique identifier",
+                    "rdfType": "id",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "label": {
+                    "description": "A label describing the membership",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "links": {
+                    "description": "URLs to documents about the membership",
+                    "items": {
+                        "$ref": "http://www.popoloproject.com/schemas/link.json#"
+                    },
+                    "type": "array"
+                },
+                "member": {
+                    "description": "The person or organization that is a member of the organization",
+                    "type": [
+                        "object",
+                        "null"
+                    ]
+                },
+                "on_behalf_of": {
+                    "$ref": "http://www.popoloproject.com/schemas/organization.json#",
+                    "description": "The organization on whose behalf the person is a member of the organization"
+                },
+                "on_behalf_of_id": {
+                    "description": "The ID of the organization on whose behalf the person is a member of the organization",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "organization": {
+                    "$ref": "http://www.popoloproject.com/schemas/organization.json#",
+                    "description": "The organization in which the person or organization is a member",
+                    "rdfReverse": "memberships"
+                },
+                "organization_id": {
+                    "description": "The ID of the organization in which the person or organization is a member",
+                    "rdfName": "organization",
+                    "rdfReverse": "memberships",
+                    "rdfType": "id",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "person": {
+                    "$ref": "http://www.popoloproject.com/schemas/person.json#",
+                    "description": "The person who is a member of the organization",
+                    "rdfReverse": "memberships"
+                },
+                "person_id": {
+                    "description": "The ID of the person who is a member of the organization",
+                    "rdfName": "person",
+                    "rdfReverse": "memberships",
+                    "rdfType": "id",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "post": {
+                    "$ref": "http://www.popoloproject.com/schemas/post.json#",
+                    "description": "The post held by the member in the organization through this membership"
+                },
+                "post_id": {
+                    "description": "The ID of the post held by the member in the organization through this membership",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "role": {
+                    "description": "The role that the member fulfills in the organization",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "sources": {
+                    "description": "URLs to documents from which the resource is derived",
+                    "items": {
+                        "$ref": "http://www.popoloproject.com/schemas/link.json#"
+                    },
+                    "type": "array"
+                },
+                "start_date": {
+                    "description": "The date on which the relationship began",
+                    "pattern": "^[0-9]{4}((-[0-9]{2}){0,2}|(-[0-9]{2}){2}(T[0-9]{2}(:[0-9]{2}(:[0-9]{2})?)?Z)?)$",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "updated_at": {
+                    "description": "The time at which the resource was last modified",
+                    "format": "date-time",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                }
+            },
+            "title": "Membership",
+            "type": "object"
+        },
+        "organizations": {
+            "$schema": "http://json-schema.org/draft-03/schema#",
+            "description": "A group with a common purpose or reason for existence that goes beyond the set of people belonging to it",
+            "id": "http://www.popoloproject.com/schemas/organization.json#",
+            "properties": {
+                "abstract": {
+                    "description": "A one-line description of an organization",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "area": {
+                    "$ref": "http://www.popoloproject.com/schemas/area.json#",
+                    "description": "The geographic area to which this organization is related"
+                },
+                "area_id": {
+                    "description": "The ID of the geographic area to which this organization is related",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "children": {
+                    "description": "The sub-organizations of the organization",
+                    "items": {
+                        "$ref": "http://www.popoloproject.com/schemas/organization.json#"
+                    },
+                    "type": "array"
+                },
+                "classification": {
+                    "description": "An organization category, e.g. committee",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "contact_details": {
+                    "description": "Means of contacting the organization",
+                    "items": {
+                        "$ref": "http://www.popoloproject.com/schemas/contact_detail.json#"
+                    },
+                    "type": "array"
+                },
+                "created_at": {
+                    "description": "The time at which the resource was created",
+                    "format": "date-time",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "description": {
+                    "description": "An extended description of an organization",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "dissolution_date": {
+                    "description": "A date of dissolution",
+                    "pattern": "^[0-9]{4}(-[0-9]{2}){0,2}$",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "founding_date": {
+                    "description": "A date of founding",
+                    "pattern": "^[0-9]{4}(-[0-9]{2}){0,2}$",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "id": {
+                    "description": "The organization's unique identifier",
+                    "rdfType": "id",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "identifiers": {
+                    "description": "Issued identifiers",
+                    "items": {
+                        "$ref": "http://www.popoloproject.com/schemas/identifier.json#"
+                    },
+                    "type": "array"
+                },
+                "image": {
+                    "description": "A URL of an image",
+                    "format": "uri",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "links": {
+                    "description": "URLs to documents about the organization",
+                    "items": {
+                        "$ref": "http://www.popoloproject.com/schemas/link.json#"
+                    },
+                    "type": "array"
+                },
+                "memberships": {
+                    "description": "The memberships of the members of the organization and of the organization itself",
+                    "items": {
+                        "$ref": "http://www.popoloproject.com/schemas/membership.json#"
+                    },
+                    "type": "array"
+                },
+                "motions": {
+                    "description": "Motions within the organization",
+                    "items": {
+                        "$ref": "http://www.popoloproject.com/schemas/motion.json#"
+                    },
+                    "type": "array"
+                },
+                "name": {
+                    "description": "A primary name, e.g. a legally recognized name",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "other_names": {
+                    "description": "Alternate or former names",
+                    "items": {
+                        "$ref": "http://www.popoloproject.com/schemas/other_name.json#"
+                    },
+                    "type": "array"
+                },
+                "parent": {
+                    "$ref": "http://www.popoloproject.com/schemas/organization.json#",
+                    "description": "The organization that contains this organization"
+                },
+                "parent_id": {
+                    "description": "The ID of the organization that contains this organization",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "posts": {
+                    "description": "Posts within the organization",
+                    "items": {
+                        "$ref": "http://www.popoloproject.com/schemas/post.json#"
+                    },
+                    "type": "array"
+                },
+                "sources": {
+                    "description": "URLs to documents from which the resource is derived",
+                    "items": {
+                        "$ref": "http://www.popoloproject.com/schemas/link.json#"
+                    },
+                    "type": "array"
+                },
+                "updated_at": {
+                    "description": "The time at which the resource was last modified",
+                    "format": "date-time",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "vote_events": {
+                    "description": "Vote events in which members of the organization are voting",
+                    "items": {
+                        "$ref": "http://www.popoloproject.com/schemas/vote_event.json#"
+                    },
+                    "type": "array"
+                },
+                "votes": {
+                    "description": "Votes cast by the organization",
+                    "items": {
+                        "$ref": "http://www.popoloproject.com/schemas/vote.json#"
+                    },
+                    "type": "array"
+                }
+            },
+            "title": "Organization",
+            "type": "object"
+        },
+        "persons": {
+            "$schema": "http://json-schema.org/draft-03/schema#",
+            "description": "A real person, alive or dead",
+            "id": "http://www.popoloproject.com/schemas/person.json#",
+            "properties": {
+                "additional_name": {
+                    "description": "One or more secondary given names",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "biography": {
+                    "description": "An extended account of a person's life",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "birth_date": {
+                    "description": "A date of birth",
+                    "pattern": "^[0-9]{4}(-[0-9]{2}){0,2}$",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "contact_details": {
+                    "description": "Means of contacting the person",
+                    "items": {
+                        "$ref": "http://www.popoloproject.com/schemas/contact_detail.json#"
+                    },
+                    "type": "array"
+                },
+                "created_at": {
+                    "description": "The time at which the resource was created",
+                    "format": "date-time",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "death_date": {
+                    "description": "A date of death",
+                    "pattern": "^[0-9]{4}(-[0-9]{2}){0,2}$",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "email": {
+                    "description": "A preferred email address",
+                    "format": "email",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "family_name": {
+                    "description": "One or more family names",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "gender": {
+                    "description": "A gender",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "given_name": {
+                    "description": "One or more primary given names",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "honorific_prefix": {
+                    "description": "One or more honorifics preceding a person's name",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "honorific_suffix": {
+                    "description": "One or more honorifics following a person's name",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "id": {
+                    "description": "The person's unique identifier",
+                    "rdfType": "id",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "identifiers": {
+                    "description": "Issued identifiers",
+                    "items": {
+                        "$ref": "http://www.popoloproject.com/schemas/identifier.json#"
+                    },
+                    "type": "array"
+                },
+                "image": {
+                    "description": "A URL of a head shot",
+                    "format": "uri",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "links": {
+                    "description": "URLs to documents about the person",
+                    "items": {
+                        "$ref": "http://www.popoloproject.com/schemas/link.json#"
+                    },
+                    "type": "array"
+                },
+                "memberships": {
+                    "description": "The person's memberships",
+                    "items": {
+                        "$ref": "http://www.popoloproject.com/schemas/membership.json#"
+                    },
+                    "type": "array"
+                },
+                "motions": {
+                    "description": "The person's motions",
+                    "items": {
+                        "$ref": "http://www.popoloproject.com/schemas/motion.json#"
+                    },
+                    "type": "array"
+                },
+                "name": {
+                    "description": "A person's preferred full name",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "national_identity": {
+                    "description": "A national identity",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "other_names": {
+                    "description": "Alternate or former names",
+                    "items": {
+                        "$ref": "http://www.popoloproject.com/schemas/other_name.json#"
+                    },
+                    "type": "array"
+                },
+                "patronymic_name": {
+                    "description": "One or more patronymic names",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "sort_name": {
+                    "description": "A name to use in a lexicographically ordered list",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "sources": {
+                    "description": "URLs to documents from which the resource is derived",
+                    "items": {
+                        "$ref": "http://www.popoloproject.com/schemas/link.json#"
+                    },
+                    "type": "array"
+                },
+                "speeches": {
+                    "description": "The person's speeches",
+                    "items": {
+                        "$ref": "http://www.popoloproject.com/schemas/speech.json#"
+                    },
+                    "type": "array"
+                },
+                "summary": {
+                    "description": "A one-line account of a person's life",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "updated_at": {
+                    "description": "The time at which the resource was last modified",
+                    "format": "date-time",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "votes": {
+                    "description": "Votes cast by the person",
+                    "items": {
+                        "$ref": "http://www.popoloproject.com/schemas/vote.json#"
+                    },
+                    "type": "array"
+                }
+            },
+            "rdfSubject": "id",
+            "title": "Person",
+            "type": "object"
+        }
+    }
+}

@@ -1,13 +1,21 @@
 GK=graphkit --debug -c config.json
+GKS=graphkit --debug -c server.json
+
+.PHONY: all clean server
 
 all: tmp/sa.json tmp/anc_members.json tmp/de.nq
 
 clean:
 	rm -rf tmp
 
+server:
+	$(GKS) clear -x urn:everypol:sa
+	$(GKS) load-csv -x urn:everypol:sa -m mapping.json tmp/sa.csv
+	$(GKS) query -f anc_query.json -o tmp/anc_members.server.json
+
 # South Africa:
 tmp/anc_members.json: tmp/sa.nq
-	$(GK) query -i tmp/sa.nq -f anc_query.json -o tmp/anc_members.json
+	$(GK) query -i tmp/sa.nq -x urn:everypol:sa -f anc_query.json -o tmp/anc_members.json
 
 tmp/sa.json: tmp/sa.nq
 	$(GK) dump-json -i tmp/sa.nq -t persons -t organizations -o tmp/sa.json
